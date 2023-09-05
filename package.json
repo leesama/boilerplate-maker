@@ -19,7 +19,11 @@
       },
       {
         "command": "extension.createNewWithRename",
-        "title": "Template: Create New (with12 rename)"
+        "title": "Template: Create New (with rename)"
+      },
+      {
+        "command": "extension.openGlobalConfigFolder",
+        "title": "Open Global Config Folder"
       }
     ],
     "menus": {

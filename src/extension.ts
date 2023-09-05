@@ -2,25 +2,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs-extra";
 import * as changeCase from "change-case";
-
-interface TemplateConfig {
-  templateRootPath: string;
-  replaceFileTextFn?: (
-    fileText: string,
-    templateName: string,
-    utilities: any
-  ) => string;
-  renameFileFn?: (
-    filename: string,
-    templateName: string,
-    utilities: any
-  ) => string;
-  renameSubDirectoriesFn?: (
-    directoryName: string,
-    templateName: string,
-    utilities: any
-  ) => string;
-}
+import { globalConfigRootPath } from "./const";
 
 function getWorkingPathDir(
   context: vscode.Uri,
@@ -144,66 +126,70 @@ async function replaceTextInFiles(
 
 // Make a default configuration file
 async function makeTemplateConfigJs(configFilePath: string): Promise<void> {
-  const defaultConfigFile = (
-    await fs.readFile(path.resolve(__dirname, "./assets", "template.config.js"))
-  ).toString("utf8");
-  await fs.writeFile(configFilePath, defaultConfigFile);
+  const sourceFilePath = path.resolve(
+    __dirname,
+    "./assets",
+    "template.config.cjs"
+  );
+  try {
+    // 使用 fs-extra 的 fs.copy 函数来复制文件
+    await fs.copy(sourceFilePath, configFilePath);
+  } catch (err) {
+    console.error("copy error:", err);
+    throw err;
+  }
 }
 
 // Make a `.templates` folder in workspace and make sample templates in `.templates` folder
 async function makeSampleTemplate(templateRootPath: string): Promise<void> {
-  const defaultSampleTemplatesPath = path.resolve(
-    __dirname,
-    "./assets/.templates"
-  );
+  const sourceFilePath = path.resolve(__dirname, "./assets/.templates");
 
-  // Make template path and subfolders
-  await fs.mkdirs(templateRootPath);
-  await fs.copy(defaultSampleTemplatesPath, templateRootPath);
+  try {
+    await fs.copy(sourceFilePath, templateRootPath);
+  } catch (err) {
+    console.error("copy error:", err);
+    throw err;
+  }
 }
+const getConfigPath = async (): Promise<string> => {
+  const activeWorkspaceFolder = vscode.workspace.workspaceFolders![0];
+  const workspaceRootPath = activeWorkspaceFolder.uri.fsPath;
+  const workspaceConfigFilePath = path.resolve(
+    workspaceRootPath,
+    "template.config.cjs"
+  );
+  const globalConfigFilePath = path.resolve(
+    globalConfigRootPath,
+    "template.config.cjs"
+  );
+  if (await fs.pathExists(workspaceConfigFilePath)) {
+    return workspaceRootPath;
+  } else if (await fs.pathExists(globalConfigFilePath)) {
+    return globalConfigRootPath;
+  } else {
+    await makeTemplateConfigJs(globalConfigFilePath);
+    return globalConfigRootPath;
+  }
+};
 
 async function createNew(
   _context: vscode.Uri,
   isRenameTemplate: boolean
 ): Promise<void> {
   try {
-    const activeWorkspaceFolder = vscode.workspace.workspaceFolders![0];
-    const workspaceRootPath = activeWorkspaceFolder.uri.fsPath;
-    const configFilePath = path.resolve(
-      workspaceRootPath,
-      "template.config.js"
+    const configPath = await getConfigPath();
+    const config = await import(
+      path.resolve(configPath, "template.config.cjs")
     );
+    const templateRootPath = path.resolve(configPath, config.templateRootPath);
 
-    // If not exist configuration file, make a default configuration file at workspace.
-    if (!(await fs.pathExists(configFilePath))) {
-      await makeTemplateConfigJs(configFilePath);
-    }
-
-    /**
-     * Clear the `template.config.js` cache from `require`
-     */
-    // delete require.cache[configFilePath];
-    //
-
-    const defaultConfigFile = (await fs.readFile(configFilePath)).toString(
-      "utf8"
-    );
-
-    const config = await import(configFilePath);
-    const templateRootPath = path.resolve(
-      workspaceRootPath,
-      config.templateRootPath || config.templatePath // deprecated `config.templatePath`
-    );
-
-    // If not exist `config.templateRootPath`, make `.templates` folder and make sample templates in `.templates`
     if (!(await fs.pathExists(templateRootPath))) {
       await makeSampleTemplate(templateRootPath);
     }
-
     const workingPathDir = getWorkingPathDir(
       _context,
       vscode.window.activeTextEditor!,
-      activeWorkspaceFolder
+      vscode.workspace.workspaceFolders![0]
     );
 
     const templatePaths = await fs.readdir(templateRootPath);
@@ -230,10 +216,6 @@ async function createNew(
 
     const dstPath = path.resolve(workingPathDir, dstTemplateName!);
 
-    /**
-     * Variables found in file or filename
-     * @ref https://github.com/stegano/vscode-template/issues/20
-     */
     const variables = [...new Set(await findVariablePatterns(srcPath))];
 
     const COMMAND_SKIP = "Skip...";
@@ -278,10 +260,7 @@ async function createNew(
       dstPath,
       dstTemplateName!,
       config.replaceFileTextFn,
-      /**
-       * @deprecated `replaceFileNameFn` is deprecated, using `renameFileFn`
-       */
-      config.renameFileFn || config.replaceFileNameFn,
+      config.renameFileFn,
       config.renameSubDirectoriesFn
     );
 
@@ -313,7 +292,7 @@ async function createNew(
     vscode.window.showErrorMessage(e.message);
   }
 }
-
+async function openGlobalConfigFolder() {}
 /**
  * @param {vscode.ExtensionContext} context
  */
