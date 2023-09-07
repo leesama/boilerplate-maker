@@ -1,7 +1,7 @@
 {
-  "name": "tem",
-  "displayName": "tem",
-  "description": "tem",
+  "name": "boilerplate-maker",
+  "displayName": "boilerplate maker",
+  "description": "boilerplate maker",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.81.0"
@@ -51,7 +51,16 @@
         "mac": "ctrl+shift+t",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "boilerplate maker",
+      "properties": {
+        "boilerplate maker.globalConfigDirectory": {
+          "type": "string",
+          "description": "The directory under the current user's home directory where global configuration is stored. Default paths: Windows - AppData/Roaming/Code/User/template, macOS - Library/Application Support/Code/User/template, Linux and other Unix-like systems - .config/Code/User/template."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
