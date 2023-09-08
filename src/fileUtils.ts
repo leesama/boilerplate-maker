@@ -67,22 +67,22 @@ export async function findVariablePatterns(filePath: string): Promise<string[]> 
 /**
  * Replace text in files within a directory.
  * @param filePath File path
- * @param templateName Template name
+ * @param boilerplateName boilerplate name
  * @param replaceFileTextFn Function to replace file text
  * @param renameFileFn Function to rename files
  * @param renameSubDirectoriesFn Function to rename subdirectories
  */
 export async function replaceTextInFiles(
   filePath: string,
-  templateName: string,
+  boilerplateName: string,
   replaceFileTextFn:
-    | ((fileText: string, templateName: string, utilities: any) => string)
+    | ((fileText: string, boilerplateName: string, utilities: any) => string)
     | undefined,
   renameFileFn:
-    | ((filename: string, templateName: string, utilities: any) => string)
+    | ((filename: string, boilerplateName: string, utilities: any) => string)
     | undefined,
   renameSubDirectoriesFn:
-    | ((directoryName: string, templateName: string, utilities: any) => string)
+    | ((directoryName: string, boilerplateName: string, utilities: any) => string)
     | undefined
 ): Promise<void> {
   try {
@@ -93,7 +93,7 @@ export async function replaceTextInFiles(
         files.map(async (entryFilePath) => {
           return replaceTextInFiles(
             path.resolve(filePath, entryFilePath),
-            templateName,
+            boilerplateName,
             replaceFileTextFn,
             renameFileFn,
             renameSubDirectoriesFn
@@ -104,7 +104,7 @@ export async function replaceTextInFiles(
         const currDirectoryName = path.basename(filePath);
         const newDirectoryName = renameSubDirectoriesFn(
           currDirectoryName,
-          templateName,
+          boilerplateName,
           {
             changeCase,
             path,
@@ -118,16 +118,16 @@ export async function replaceTextInFiles(
       if (typeof replaceFileTextFn === "function") {
         await fs.writeFile(
           filePath,
-          replaceFileTextFn(fileText, templateName, { changeCase, path })
+          replaceFileTextFn(fileText, boilerplateName, { changeCase, path })
         );
         /**
          * Rename file
-         * @ref https://github.com/stegano/vscode-template/issues/4
+         * @ref https://github.com/stegano/vscode-boilerplate/issues/4
          */
         if (typeof renameFileFn === "function") {
           const filePathInfo = path.parse(filePath);
           const { base: originalFilename } = filePathInfo;
-          const filename = renameFileFn(originalFilename, templateName, {
+          const filename = renameFileFn(originalFilename, boilerplateName, {
             changeCase,
             path,
           });
@@ -142,14 +142,14 @@ export async function replaceTextInFiles(
 }
 
 /**
- * Make a `.templates` folder in the workspace and create sample templates.
- * @param templateRootPath Root path for templates
+ * Make a `.boilerplate` folder in the workspace and create sample boilerplate.
+ * @param boilerplateRootPath Root path for boilerplate
  */
-export async function makeSampleTemplate(templateRootPath: string): Promise<void> {
-  const sourceFilePath = path.resolve(__dirname, "./assets/.templates");
+export async function makeSampleboilerplate(boilerplateRootPath: string): Promise<void> {
+  const sourceFilePath = path.resolve(__dirname, "./assets/.boilerplate");
 
   try {
-    await fs.copy(sourceFilePath, templateRootPath);
+    await fs.copy(sourceFilePath, boilerplateRootPath);
   } catch (err) {
     console.error("copy error:", err);
     throw err;

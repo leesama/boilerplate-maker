@@ -14,39 +14,35 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.createNew",
-        "title": "Template: Create New"
+        "command": "extension.createBoilerplate",
+        "title": "boilerplate: Create Boilerplate"
       },
       {
-        "command": "extension.createNewWithRename",
-        "title": "Template: Create New (with rename)"
-      },
-      {
-        "command": "extension.openGlobalConfigFolder",
-        "title": "Open Global Config Folder"
+        "command": "extension.createBoilerplateWithRename",
+        "title": "boilerplate: Create Boilerplate (with rename)"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "extension.createNew",
+          "command": "extension.createBoilerplate",
           "group": "navigation"
         },
         {
-          "command": "extension.createNewWithRename",
+          "command": "extension.createBoilerplateWithRename",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "extension.createNew",
+        "command": "extension.createBoilerplate",
         "key": "ctrl+alt+t",
         "mac": "ctrl+alt+t",
         "when": "editorTextFocus"
       },
       {
-        "command": "extension.createNewWithRename",
+        "command": "extension.createBoilerplateWithRename",
         "key": "ctrl+shift+t",
         "mac": "ctrl+shift+t",
         "when": "editorTextFocus"
@@ -57,7 +53,7 @@
       "properties": {
         "boilerplate maker.globalConfigDirectory": {
           "type": "string",
-          "description": "The directory under the current user's home directory where global configuration is stored. Default paths: Windows - AppData/Roaming/Code/User/template, macOS - Library/Application Support/Code/User/template, Linux and other Unix-like systems - .config/Code/User/template."
+          "description": "The directory under the current user's home directory where global configuration is stored. Default paths: Windows - AppData/Roaming/Code/User/boilerplate, macOS - Library/Application Support/Code/User/boilerplate, Linux and other Unix-like systems - .config/Code/User/boilerplate."
         }
       }
     }
