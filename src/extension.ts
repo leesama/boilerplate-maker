@@ -5,30 +5,30 @@ import { getConfigPath } from "./configUtils";
 import {
   findVariablePatterns,
   getWorkingPathDir,
-  makeSampleTemplate,
+  makeSampleboilerplate,
   replaceTextInFiles,
 } from "./fileUtils";
 
 /**
- * Create a new template based on user input.
+ * Create a new boilerplate based on user input.
  * @param _context Current context
- * @param isRenameTemplate Boolean indicating if the template should be renamed
+ * @param isRenameboilerplate Boolean indicating if the boilerplate should be renamed
  */
 async function createNew(
   _context: vscode.Uri,
-  isRenameTemplate: boolean
+  isRenameboilerplate: boolean
 ): Promise<void> {
   try {
     // Get the path to the configuration file
     const configPath = await getConfigPath();
 
     // Load the configuration
-    const config = await import(path.resolve(configPath, "template.config.cjs"));
-    const templateRootPath = path.resolve(configPath, config.templateRootPath);
+    const config = await import(path.resolve(configPath, "boilerplate.config.cjs"));
+    const boilerplateRootPath = path.resolve(configPath, config.boilerplateRootPath);
 
-    // Create a sample template if it doesn't exist
-    if (!(await fs.pathExists(templateRootPath))) {
-      await makeSampleTemplate(templateRootPath);
+    // Create a sample boilerplate if it doesn't exist
+    if (!(await fs.pathExists(boilerplateRootPath))) {
+      await makeSampleboilerplate(boilerplateRootPath);
     }
 
     // Determine the working directory
@@ -38,33 +38,33 @@ async function createNew(
       vscode.workspace.workspaceFolders![0]
     );
 
-    // Get the list of available template paths
-    const templatePaths = await fs.readdir(templateRootPath);
+    // Get the list of available boilerplate paths
+    const boilerplatePaths = await fs.readdir(boilerplateRootPath);
 
-    // Allow the user to choose a template
-    const templateName = await vscode.window.showQuickPick(templatePaths, {
-      placeHolder: "Choose a template",
+    // Allow the user to choose a boilerplate
+    const boilerplateName = await vscode.window.showQuickPick(boilerplatePaths, {
+      placeHolder: "Choose a boilerplate",
     });
 
     // If no input data, do nothing
-    if (templateName === undefined) {
+    if (boilerplateName === undefined) {
       return;
     }
 
     // Build source and destination paths
-    const srcPath = path.resolve(templateRootPath, templateName);
+    const srcPath = path.resolve(boilerplateRootPath, boilerplateName);
 
-    // Input template name from user
-    const dstTemplateName = isRenameTemplate
+    // Input boilerplate name from user
+    const dstboilerplateName = isRenameboilerplate
       ? await vscode.window.showInputBox({
-          prompt: "Input a template name",
-          value: templateName,
+          prompt: "Input a boilerplate name",
+          value: boilerplateName,
         })
-      : templateName;
+      : boilerplateName;
 
-    const dstPath = path.resolve(workingPathDir, dstTemplateName!);
+    const dstPath = path.resolve(workingPathDir, dstboilerplateName!);
 
-    // Find variable patterns in the template
+    // Find variable patterns in the boilerplate
     const variables = [...new Set(await findVariablePatterns(srcPath))];
 
     const COMMAND_SKIP = "Skip...";
@@ -102,13 +102,13 @@ async function createNew(
       }
     }
 
-    // Copy template files to the destination path
+    // Copy boilerplate files to the destination path
     await fs.copy(srcPath, dstPath);
 
     // Replace text in copied files
     await replaceTextInFiles(
       dstPath,
-      dstTemplateName!,
+      dstboilerplateName!,
       config.replaceFileTextFn,
       config.renameFileFn,
       config.renameSubDirectoriesFn
@@ -126,13 +126,13 @@ async function createNew(
 
     await replaceTextInFiles(
       dstPath,
-      dstTemplateName!,
+      dstboilerplateName!,
       replaceTextWithVariables,
       replaceTextWithVariables,
       replaceTextWithVariables
     );
 
-    vscode.window.showInformationMessage("Template: copied!");
+    vscode.window.showInformationMessage("boilerplate: copied!");
   } catch (e: any) {
     console.error(e.stack);
     vscode.window.showErrorMessage(e.message);
@@ -145,11 +145,11 @@ async function createNew(
  */
 function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
-    vscode.commands.registerCommand("extension.createNew", (context) =>
+    vscode.commands.registerCommand("extension.createBoilerplate", (context) =>
       createNew(context, false)
     ),
     vscode.commands.registerCommand(
-      "extension.createNewWithRename",
+      "extension.createBoilerplateWithRename",
       (context) => createNew(context, true)
     )
   );
