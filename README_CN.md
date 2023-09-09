@@ -2,7 +2,7 @@
 
 Boilerplate Maker is an extension for Visual Studio Code that allows you to create template code easily. With this extension, you can generate and manage template code to enhance your development efficiency.
 
-[English](README.md) | [中文](README_CN.md)
+[中文](README_CN.md) | [English](README.md)
 
 ## Features
 
