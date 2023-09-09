@@ -80,4 +80,4 @@ This extension follows the [MIT License](LICENSE).
 
 **Enjoy!** 🚀
 
-**Boilerplate Maker** was developed by [Your Name](https://github.com/yourusername) and is provided under the MIT License. If you like this extension, please give it a star on the [GitHub repository link](https://github.com/yourusername/boilerplate-maker).
+**Boilerplate Maker** was developed by [leesama](https://github.com/leesama) and is provided under the MIT License. If you like this extension, please give it a star on the [GitHub repository link](https://github.com/leesama/boilerplate-maker).
