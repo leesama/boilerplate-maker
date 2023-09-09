@@ -1,8 +1,8 @@
 {
   "name": "boilerplate-maker",
   "displayName": "boilerplate maker",
-  "description": "boilerplate maker",
-  "version": "0.0.1",
+  "description": "an extension for Visual Studio Code that allows you to create template code easily",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.81.0"
   },
