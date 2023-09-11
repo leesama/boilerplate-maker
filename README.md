@@ -14,8 +14,10 @@ Boilerplate Maker is an extension for Visual Studio Code that allows you to crea
 
 1. Open Visual Studio Code.
 2. Select the **Extensions** icon in the sidebar.
-3. Type **Boilerplate Maker** in the search box.
+3. Type **boilerplate-maker** in the search box.
 4. Find the extension and click **Install**.
+
+or click [Visual Studio Code Market Place: Boilerplate Maker](https://marketplace.visualstudio.com/items?itemName=leesama-tools.boilerplate-maker)
 
 ## Usage
 
