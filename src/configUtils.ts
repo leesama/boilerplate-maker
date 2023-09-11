@@ -4,7 +4,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 
 // Function to get the default global configuration root path based on the platform
-const getDefaultGlobalConfigDirectory = () => {
+export const getDefaultGlobalConfigDirectory = () => {
   const userDir = os.homedir();
 
   let configFilePath: string;
