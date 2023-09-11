@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - created
+
+jobs:
+  Publish:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - run: pnpm install
+      - run: xvfb-run -a pnpm test
+        if: runner.os == 'Linux'
+      - run: pnpm test
+        if: runner.os != 'Linux'
+      - name: Publish
+        if: success() && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest'
+        run: pnpm run deploy
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
