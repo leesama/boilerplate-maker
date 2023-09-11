@@ -1,9 +1,7 @@
-# Change Log
+## [v-1.0.0]
 
-All notable changes to the "boilerplate maker" extension will be documented in this file.
+Implemented all basic functionalities
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [v-1.0.1]
 
-## [Unreleased]
-
-- Initial release
+Add icon
