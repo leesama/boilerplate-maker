@@ -7,9 +7,8 @@
     "vscode": "^1.81.0"
   },
   "categories": [
-    "Other"
+    "Snippets"
   ],
-  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -88,5 +87,9 @@
     "@types/fs-extra": "^11.0.1",
     "change-case": "^4.1.2",
     "fs-extra": "^11.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leesama/boilerplate-maker"
   }
 }
