@@ -2,7 +2,7 @@
   "name": "boilerplate-maker",
   "displayName": "boilerplate maker",
   "description": "an extension for Visual Studio Code that allows you to create template code easily",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.81.0"
   },
@@ -89,5 +89,6 @@
     "type": "git",
     "url": "https://github.com/leesama/boilerplate-maker"
   },
-  "publisher": "leesama-tools"
+  "publisher": "leesama-tools",
+  "icon": "icon.jpg"
 }
