@@ -70,6 +70,10 @@ Used to configure and customize the creation and replacement behavior of templat
 
 In summary, this configuration file is used to define the template's root path, file content replacement rules, file renaming rules, and subdirectory renaming rules. By customizing these rules, you can automate and customize template generation according to your project requirements.
 
+## Referenced Templates
+
+[GitHub Repository](https://github.com/leesama/boilerplate-maker/tree/main/boilerplate)
+
 ## Contribution
 
 If you find any issues or have suggestions for improvement, please open issues or requests on the [GitHub repository](https://github.com/yourusername/boilerplate-maker).
