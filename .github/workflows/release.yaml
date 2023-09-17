@@ -19,11 +19,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - name: Install pnpm
-        run: npm install -g pnpm
-      - run: pnpm install
+      - run: yarn install
       - name: Publish
         if: success() && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest'
-        run: pnpm run deploy
+        run: yarn run deploy
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
