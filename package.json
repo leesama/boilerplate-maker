@@ -2,7 +2,7 @@
   "name": "boilerplate-maker",
   "displayName": "boilerplate maker",
   "description": "an extension for Visual Studio Code that allows you to create template code easily",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.81.0"
   },
@@ -64,7 +64,7 @@
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "deploy": "vsce publish --no-dependencies"
+    "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
