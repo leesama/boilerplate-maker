@@ -2,7 +2,7 @@
 
 Boilerplate Maker 是适用于 Visual Studio Code 的扩展，它允许您轻松创建模板代码。使用此扩展，您可以生成和管理模板代码，以提高开发效率。
 
-[English](README.md) | [中文](README_CN.md)
+[中文](README_CN.md) | [English](README.md)
 
 ## 功能
 
@@ -69,6 +69,10 @@ Boilerplate Maker 是适用于 Visual Studio Code 的扩展，它允许您轻松
    在此函数中，它使用 `changeCase.paramCase` 函数将模板名称转换为参数案例，并将子目录名称中的 `__boilerplateName__` 占位符替换为新的目录名称。
 
 总之，此配置文件用于定义模板的根路径、文件内容替换规则、文件重命名规则和子目录重命名规则。通过自定义这些规则，您可以根据项目需求自动化和定制模板生成。
+
+## 可参考的模板
+
+[GitHub 存储库](https://github.com/leesama/boilerplate-maker/tree/main/boilerplate)
 
 ## 贡献
 
