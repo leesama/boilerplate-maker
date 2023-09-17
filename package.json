@@ -58,10 +58,10 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run compile",
+    "vscode:prepublish": "yarn run compile",
     "compile": "tsc -p ./",
     "watch": "fse copy --all --keepExisting --errorOnExist --dereference --preserveTimestamps --quiet  src/assets out/assets --quiet && tsc -watch -p ./",
-    "pretest": "pnpm run compile && pnpm run lint",
+    "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "deploy": "vsce publish --no-dependencies"
